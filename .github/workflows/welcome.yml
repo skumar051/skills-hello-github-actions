@@ -4,3 +4,20 @@ on:
     types: [opened]
 permissions:
   pull-requests: write
+
+jobs:
+  welcome-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post a welcome comment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pr = github.context.payload.pull_request;
+            const message = 'Welcome to the repository Sanu for your contribution;
+            await github.rest.issues.createComment({
+              issue_number: pr.number,
+              owner: github.context.repo.owner,
+              repo: github.context.repo.repo,
+              body: message
+            });
